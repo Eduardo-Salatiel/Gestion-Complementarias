@@ -1,4 +1,4 @@
-require("./config/config");
+
 require("./../models/index");
 const express = require("express");
 const path = require("path");
@@ -9,6 +9,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("./config/passport");
+require('dotenv').config({path: 'variables.env'})
 
 //SE LEVANTA EL SERVIDOR EXPRESS
 const app = express();
@@ -59,6 +60,9 @@ app.use((req, res, next) =>{
 app.use('/', routes);
 
 //SE LE ASIGNA UN PUERTO
-app.listen(process.env.PORT, () => {
-  console.log("Escuchando el puerto ", process.env.PORT);
+const host = process.env.HOST || '0.0.0.0'
+const port = process.env.PORT || 3000
+
+app.listen(port, host, () => {
+  console.log("Escuchando el puerto ", port);
 });
