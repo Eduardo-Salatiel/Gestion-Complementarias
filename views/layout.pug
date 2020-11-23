@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        include partials/head
+    body
+        header.main-header
+            h1 Actividades Complementarias
+            a(href="#") Cerrar Sesión
+        main
+            aside.sidebar
+                .usuario-data
+                    p Bienvenido: 
+                    span Eduardo Uribe
+                .menu
+                    p Menu
+                    ul.menu-list
+                        li 
+                            a(href="") Emitir Constancia
+                        li 
+                            a(href="") Consulta de Alumnos
+                .menu
+                    p Menu Administrador
+                    ul.menu-list
+                        li 
+                            a(href="/crear-usuario") Registrar Usuario
+                        li 
+                            a(href="") Eliminar Usuario
+                        li 
+                            a(href="") Cargar Datos            
+
+            block contenido
+        
+        include partials/footer

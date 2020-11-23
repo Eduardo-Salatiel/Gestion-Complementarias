@@ -1,0 +1,17 @@
+extends layout
+
+block contenido
+    .container
+        .configurar-password
+            h1 Configura tu contraseña
+            if locals.mensajes
+                each categoria in Object.keys(locals.mensajes)
+                    .errores
+                        each error in mensajes[categoria]
+                            p.error= error
+
+            form(action= `/cofigurar-password/${token}`, method="POST")
+                .campo
+                    label(for="pass") Ingresa tu contraseña: 
+                    input(type="password", name="pass" id="pass" placeholder="Coloca tu contraseña aqui")
+                input.boton(type="submit", value="Aceptar")

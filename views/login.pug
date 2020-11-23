@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+html(lang="es")
+    head
+        include partials/head
+    body.login
+        .login-container
+            h1 Iniciar Sesión
+
+            if error
+                p.error= error
+            form(action="/iniciar-sesion" method="POST")
+                .campo
+                    label(class="label" for="email") Correo: 
+                    input(type="text" name="email" id="email" placeholder="Ingresa tu correo aqui")
+                .campo
+                    label(for="password") Contraseña: 
+                    input(type="password" name="password" id="password" placeholder="Ingresa tu contraseña aqui")
+                input.boton(type="submit" value="Iniciar Sesión") 
