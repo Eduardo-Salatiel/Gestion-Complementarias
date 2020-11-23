@@ -4,7 +4,7 @@
   "description": "\"Gestion actividades complementarias\"",
   "main": "index.js",
   "scripts": {
-    "start": "node ./server/index"
+    "start": "node ./server/index.js"
   },
   "author": "\"Residentes TESCI\"",
   "license": "ISC",
