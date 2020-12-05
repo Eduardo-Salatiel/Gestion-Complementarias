@@ -22,9 +22,9 @@ exports.enviar = async (opciones) => {
     const html = generarHTML(opciones.archivo, opciones)
     const text = htmlToText.fromString(html)
 
-  let info = transport.sendMail({
+  let info = transport.sendMail({ 
     from: 'Gestión Complementarias <no-reply@tesci.com>', // sender address
-    to: 'dreamsjumperh9c@gmail.com', // list of receivers
+    to: opciones.usuario.correo, // list of receivers
     subject: opciones.subjet, // Subject line
     text: htmlToText.fromString,
     text,
