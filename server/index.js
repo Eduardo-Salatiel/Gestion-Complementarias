@@ -1,6 +1,6 @@
-
 require("./../models/index");
 const express = require("express");
+const imprimir = require('./../helpers/imprimir')
 const path = require("path");
 const routes = require("./../routes/index");
 const db = require("./config/db");
@@ -9,7 +9,8 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("./config/passport");
-require('dotenv').config({path: 'variables.env'})
+const fileUpload = require("express-fileupload");
+require("dotenv").config({ path: "variables.env" });
 
 //SE LEVANTA EL SERVIDOR EXPRESS
 const app = express();
@@ -27,6 +28,15 @@ app.use(express.static("public"));
 
 //OBTENCION DEL BODY DE DATOS}
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+//AGREGAR SUBIDA DE ARCHIVOS
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+  })
+);
 
 //SE HABILITAN LAS VISTAS
 app.set("views", path.join(__dirname, "./../views"));
@@ -37,8 +47,7 @@ app.use(cookieParser());
 app.use(
   session({
     secret: "supersecreto",
-    resave: false,
-    saveUninitialized: false,
+    resave: false
   })
 );
 
@@ -46,22 +55,22 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 //AGREGAR FLASH MESSAGES
 app.use(flash());
 
 //VARIABLE GLOBAL DE ERRORES
-app.use((req, res, next) =>{
-    res.locals.mensajes = req.flash()
-    next();
-})
+app.use((req, res, next) => {
+  res.locals.vardump = imprimir.vardump;
+  res.locals.mensajes = req.flash();
+  next();
+});
 
 //SE IMPORTAN LAS RUTAS
-app.use('/', routes);
+app.use("/", routes);
 
 //SE LE ASIGNA UN PUERTO
-const host = process.env.HOST || '0.0.0.0'
-const port = process.env.PORT || 3000
+const host = process.env.HOST || "0.0.0.0";
+const port = process.env.PORT || 3000;
 
 app.listen(port, host, () => {
   console.log("Escuchando el puerto ", port);

@@ -23,7 +23,6 @@ passport.use(
 
         return done(null, usuario);
       } catch (error) {
-        console.log(error);
         return done(null, false, { message: "Esa cuenta no existe" });
       }
     }

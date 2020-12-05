@@ -9,7 +9,7 @@ block contenido
                 each categoria in Object.keys(locals.mensajes)
                     .errores
                         each error in mensajes[categoria]
-                            p.error= error
+                            p(class= categoria)= error
 
 
             form(action="/crear-usuario" method="POST")
@@ -30,13 +30,13 @@ block contenido
                     .campo
                         label(for="role") Role: 
                         select(name="role")
-                            option(value="") Selecciona un role
+                            option(value="" disabled selected) Selecciona un role
                             option(value="admin") Administrador
                             option(value="user") Usuario
                     .campo
                         label(for="jefe") Jefe de Carrera: 
                         select(name="jefe")
-                            option(value="") En caso de serlo
+                            option(value="" disabled selected) En caso de serlo
                             option(value="Ingenieria en Sistemas Computacionales") Ingenieria en Sistemas Computacionales
                             option(value="Ingenieria Industrial") Ingenieria Industrial
                             option(value="Ingenieria Mecatronica") Ingenieria Mecatronica

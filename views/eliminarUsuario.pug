@@ -1,0 +1,26 @@
+extends layout
+
+block contenido
+
+    .container
+        h1 Eliminar Usuarios
+        .eliminar
+            each usuario in usuarios
+                .fila-container
+                    .caja
+                        h2 Nombre
+                        p= usuario.nombre
+                    .caja
+                        h2 Ap. Paterno
+                        p= usuario.aPaterno
+                    .caja
+                        h2 Ap. Materno
+                        p= usuario.aMaterno
+                    .caja
+                        h2 Correo
+                        p= usuario.correo
+                    button.delete-boton(data-usuario= usuario.id type="button" id="btn-eliminar") X
+
+    script(src="/dist/bundle.js")
+
+

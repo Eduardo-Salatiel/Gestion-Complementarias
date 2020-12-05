@@ -40,10 +40,12 @@ a {
   border: none;
   display: block;
   margin: 2.5rem auto 0 auto;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .boton:hover {
-  background-color: #10abdb;
+  background-color: #0fa3d1;
 }
 
 /*----------ESTILOS LOGIN----------*/
@@ -183,8 +185,9 @@ a {
   margin: 1rem auto 0 auto;
 }
 
-/*------ERROR------*/
-.error {
+/*------ERROR Y SUCCESS------*/
+.error,
+.correcto {
   padding: 0.8rem 1rem;
   background-color: #f09e94;
   border: 2px solid #cb3234;
@@ -217,7 +220,20 @@ a {
   font-size: 1rem;
   font-weight: 600;
   color: #fff;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.errores .correcto {
+  width: 90%;
+  padding: 0.5rem 0;
+  border: 2px solid #02ac66;
+  background-color: #6dc36d;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.5rem;
   text-align: center;
 }
 
@@ -416,20 +432,44 @@ a {
   margin-bottom: 0.3rem;
 }
 
-.container .configurar-password {
-  width: 75%;
+/*------CONFIGURAR PASSWORD------*/
+.container-config {
+  background-color: #455A64;
+}
+
+.container-config .configurar-password {
+  width: 60%;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin: 0 auto;
 }
 
-.container .configurar-password form {
-  background-color: #607D8B;
+.container-config .configurar-password h1 {
+  text-align: center;
+  color: #252850;
+}
+
+.container-config .configurar-password form {
+  width: 100%;
+  background-color: #f2f2f2;
   -webkit-box-shadow: -1px 0px 23px 0px rgba(50, 50, 50, 0.73);
   box-shadow: -1px 0px 23px 0px rgba(50, 50, 50, 0.73);
   padding: 1.5rem;
-  margin-top: 2.5rem;
 }
 
-.container .configurar-password .campo {
+.container-config .configurar-password .campo {
   padding: 1rem 2rem;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -442,8 +482,8 @@ a {
   align-items: center;
 }
 
-.container .configurar-password .campo input[type="password"],
-.container .configurar-password .campo select {
+.container-config .configurar-password .campo input[type="password"],
+.container-config .configurar-password .campo select {
   display: block;
   -webkit-box-flex: 1;
   -ms-flex: 1;
@@ -453,10 +493,218 @@ a {
   outline: none;
 }
 
-.container .configurar-password .campo label {
+.container-config .configurar-password .campo label {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 200px;
   flex: 0 0 200px;
   font-weight: bold;
   font-size: 1rem;
+}
+
+/*------CARGAR ARCHIVO------*/
+.container .cargar-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.container .cargar-container form {
+  margin-top: 1.5rem;
+  background-color: #607D8B;
+  -webkit-box-shadow: 6px 6px 14px 0px rgba(50, 50, 50, 0.68);
+  box-shadow: 6px 6px 14px 0px rgba(50, 50, 50, 0.68);
+  padding: 3rem;
+}
+
+.container .cargar-container form .campo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.container .cargar-container form .campo p {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.container .cargar-container form .campo label {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.8rem 2rem;
+  width: 50%;
+  color: #fff;
+  text-align: center;
+  border-radius: 15px;
+  background-color: #0f9cc8;
+  -webkit-transition: background-color 0.4s ease-in;
+  transition: background-color 0.4s ease-in;
+}
+
+.container .cargar-container form .campo label:hover {
+  cursor: pointer;
+}
+
+.container .cargar-container form .campo .cargado {
+  background-color: #02ac66;
+}
+
+.container .cargar-container form .campo input[type="file"] {
+  display: none;
+}
+
+/*------ELIMINAR USUARIO------*/
+.eliminar {
+  overflow: auto;
+  height: 450px;
+}
+
+.fila-container {
+  width: 90%;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.fila-container .caja {
+  padding: 0 0.5rem;
+  margin-top: 0.5rem;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  border-bottom: 1px solid #000;
+}
+
+.fila-container .caja h2 {
+  font-size: 1rem;
+}
+
+.fila-container .delete-boton {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  background-color: darkred;
+  color: #fff;
+  text-decoration: none;
+}
+
+.container.consulta .fila-container {
+  margin-top: 2rem;
+  width: 95%;
+}
+
+.container.consulta .fila-container .space {
+  -webkit-box-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+}
+
+.container.consulta .fila-container .caja#consulta {
+  text-align: center;
+  border: 0 !important;
+}
+
+.consultar-container {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.consultar-container form {
+  margin: 0 auto;
+}
+
+.consultar-container form .boton {
+  margin-top: 1.8rem;
+}
+
+.consultar-container .campo {
+  -webkit-box-shadow: 6px 6px 14px 0px rgba(50, 50, 50, 0.68);
+  box-shadow: 6px 6px 14px 0px rgba(50, 50, 50, 0.68);
+  padding: 2rem 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-color: #607D8B;
+}
+
+.consultar-container .campo input[type="text"] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: block;
+  width: 100%;
+  height: 2rem;
+  border-radius: 10px;
+  outline: none;
+}
+
+.consultar-container .campo label {
+  color: #FFF;
+  display: inline-block;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.3rem;
+  padding-right: 2rem;
+}
+
+table {
+  margin: 2rem auto 1.5rem auto;
+  width: 90%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 2.5px solid black;
+}
+
+table thead th:nth-child(1), table thead th:nth-child(3), table thead th:nth-child(4) {
+  width: 20%;
+}
+
+table thead th:nth-child(2) {
+  width: 40%;
+}
+
+table th, table td {
+  text-align: center;
+  padding: .8rem;
+  border: 2px solid black;
+  letter-spacing: .5px;
+}
+
+table th {
+  background-color: #9999FF;
+}
+
+table caption {
+  background-color: #99CCFF;
+  border: 2px solid black;
+  border-bottom: none;
+  padding: .5rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  caption-side: top;
+}
+
+table .total-creditos {
+  letter-spacing: 1px;
+  font-weight: bold;
+  background-color: #9999FF;
+  text-align: right;
 }

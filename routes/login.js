@@ -8,5 +8,6 @@ app.post('/iniciar-sesion', loginController.autenticarUsuario)
 //CONFIGURAR PASSWORD
 app.get('/configurar-password/:token', loginController.asignarPasswordForm)
 app.post('/cofigurar-password/:token', loginController.asignarPassword)
+app.get('/cerrar-sesion', loginController.cerrarSesion)
 
 module.exports = app;

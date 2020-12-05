@@ -4,11 +4,10 @@ const db = require('./../server/config/db');
 const Alumnos = db.define('alumnos',{
     id: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+        primaryKey: true
     },
     nombre: {
-        type: Sequelize.STRING(40),
+        type: Sequelize.STRING(50),
         allowNull: false
     },
     aPaterno: {

@@ -1,5 +1,6 @@
 exports.homeView = (req,res) => {
     res.render('index',{
-        nombrePagina: "Home"
+        nombrePagina: "Home",
+        usuario: req.user
     })
 }

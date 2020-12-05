@@ -1,0 +1,46 @@
+extends layout
+
+block contenido
+    .container.consulta
+        .consultar-container
+            h1 Consultar Alumno
+            form(action="/consultar-alumno-resultado", method="get")
+                .campo
+                    label(for="alumno") Numero de Control:
+                    input(type="text", name="alumno" placeholder="Ej: 163107289")
+                input.boton(type="submit", value="Consultar")
+        if alumno
+            .fila-container
+                .caja#consulta
+                    h2 No. Control
+                    p= alumno.alumno.id
+                .caja#consulta.space
+                    h2 Nombre
+                    p= `${alumno.alumno.nombre} ${alumno.alumno.aPaterno} ${alumno.alumno.aMaterno}`
+                .caja#consulta.space
+                    h2 Carrera
+                    p= alumno.alumno.carrera
+                .caja#consulta
+                    h2 Creditos
+                    p= alumno.alumno.creditos
+        if(complementarias)
+            table
+                caption ACTIVIDADES COMPLEMENTARIAS REGISTRADAS
+                thead
+                    tr
+                        th PERIODO 
+                        th ACTIVIDAD
+                        th CLAVE
+                        th CREDITOS
+                tbody
+                    each complementaria in complementarias
+                        tr
+                            td= complementaria.actividade.periodo
+                            td= complementaria.actividade.actividad
+                            td pen
+                            td= complementaria.actividade.creditos
+                    tr
+                        td.total-creditos(colspan="3") TOTAL DE CREDITOS CUBIERTOS
+                        td= alumno.alumno.creditos
+
+    

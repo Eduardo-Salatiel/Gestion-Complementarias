@@ -4,26 +4,37 @@
   "description": "\"Gestion actividades complementarias\"",
   "main": "index.js",
   "scripts": {
-    "start": "node ./server/index.js"
+    "start": "node ./server/index.js",
+    "dev": "nodemon server/index",
+    "devStart": "concurrently \"npm run dev\" \"npm run watch\"",
+    "watch": "webpack --watch --mode development"
   },
   "author": "\"Residentes TESCI\"",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
+    "babel-loader": "^8.2.2",
+    "concurrently": "^5.3.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
-    "gulp-sass": "^4.1.0"
+    "gulp-sass": "^4.1.0",
+    "webpack": "^5.9.0",
+    "webpack-cli": "^4.2.0"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions"
   ],
   "dependencies": {
+    "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.0",
     "express-session": "^1.17.1",
     "html-to-text": "^6.0.0",
     "juice": "^7.0.0",
@@ -33,6 +44,8 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "pug": "^3.0.0",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "sweetalert2": "^10.11.0",
+    "xlsx": "^0.16.9"
   }
 }
