@@ -19,4 +19,8 @@ app.delete('/eliminar-usuario/:id',usuarioAutenticado, usuariosController.elimin
 app.get('/consultar-alumno',usuarioAutenticado, usuariosController.consultarAlumnoForm)
 app.get('/consultar-alumno-resultado',usuarioAutenticado, usuariosController.consultarAlumno)
 
+//GENERAR CARTA
+app.get('/generar-carta', usuariosController.generarCartaForm)
+app.get('/carta-finalizacion', usuariosController.generarCarta)
+
 module.exports = app;

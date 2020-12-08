@@ -220,7 +220,7 @@ a {
   font-size: 1rem;
   font-weight: 600;
   color: #fff;
-  margin-bottom: 0.5rem;
+  margin-bottom: .5rem;
   text-align: center;
 }
 
@@ -618,7 +618,7 @@ a {
 }
 
 .consultar-container form {
-  margin: 0 auto;
+  margin: 1.5rem auto 0 auto;
 }
 
 .consultar-container form .boton {

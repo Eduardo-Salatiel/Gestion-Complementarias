@@ -47,7 +47,7 @@ const Usuarios = db.define('usuarios',{
         },
         unique: {
             args: true,
-            msg: 'Ya existe ese correo electronico'
+            msg: 'Ya existe un usuario con ese correo'
         }
     },
     password: {

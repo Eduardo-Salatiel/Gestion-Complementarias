@@ -4,6 +4,11 @@ block contenido
     .container.consulta
         .consultar-container
             h1 Consultar Alumno
+            if locals.mensajes
+                each categoria in Object.keys(locals.mensajes)
+                    .errores
+                        each error in mensajes[categoria]
+                            p(class= categoria)= error
             form(action="/consultar-alumno-resultado", method="get")
                 .campo
                     label(for="alumno") Numero de Control:
