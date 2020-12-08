@@ -251,7 +251,6 @@ exports.generarCarta = async (req, res) => {
     año: date.getFullYear().toString()
   }
 
-  console.log(JSON.stringify(data));
   //GENERAR LA CARTA
   try {
     const content = fs.readFileSync(
@@ -269,7 +268,7 @@ exports.generarCarta = async (req, res) => {
       nombrePagina: 'Generar Carta',
       usuario: req.user,
       alumno: alumno,
-      url: path.resolve(__dirname + "/../doc/carta.docx")
+      url: "doc/carta.docx"
 
     })
   } catch (error) {
