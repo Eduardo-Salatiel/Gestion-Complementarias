@@ -22,5 +22,6 @@ app.get('/consultar-alumno-resultado',usuarioAutenticado, usuariosController.con
 //GENERAR CARTA
 app.get('/generar-carta', usuariosController.generarCartaForm)
 app.get('/carta-finalizacion', usuariosController.generarCarta)
+app.get('/descargar-carta', usuariosController.descargarArchivo)
 
 module.exports = app;

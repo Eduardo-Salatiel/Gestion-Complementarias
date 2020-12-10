@@ -57,12 +57,12 @@ const Usuarios = db.define('usuarios',{
         type: Sequelize.STRING(100),
     },
     role: {
-        type: Sequelize.STRING(18),
+        type: Sequelize.STRING(20),
         allowNull: false,
         validate:{
-            notEmpty:{
-                msg: 'Especifique un role de usuario'
-            }
+            notEmpty: {
+                msg: "Especifique un role de usuario"
+              }
         }
 
     },

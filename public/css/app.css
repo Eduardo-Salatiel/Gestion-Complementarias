@@ -626,8 +626,6 @@ a {
 }
 
 .consultar-container .campo {
-  -webkit-box-shadow: 6px 6px 14px 0px rgba(50, 50, 50, 0.68);
-  box-shadow: 6px 6px 14px 0px rgba(50, 50, 50, 0.68);
   padding: 2rem 2rem;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -639,9 +637,6 @@ a {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
   background-color: #607D8B;
 }
 
@@ -657,10 +652,13 @@ a {
 }
 
 .consultar-container .campo label {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 180px;
+  flex: 0 0 180px;
   color: #FFF;
   display: inline-block;
   font-weight: bold;
-  text-align: center;
+  text-align: left;
   margin-bottom: 0.3rem;
   padding-right: 2rem;
 }

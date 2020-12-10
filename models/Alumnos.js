@@ -7,19 +7,19 @@ const Alumnos = db.define('alumnos',{
         primaryKey: true
     },
     nombre: {
-        type: Sequelize.STRING(50),
+        type: Sequelize.STRING(70),
         allowNull: false
     },
     aPaterno: {
-        type: Sequelize.STRING(25),
+        type: Sequelize.STRING(35),
         allowNull:false
     },
     aMaterno: {
-        type: Sequelize.STRING(25),
+        type: Sequelize.STRING(35),
         allowNull: false,
     },
     carrera:{
-        type: Sequelize.STRING(45),
+        type: Sequelize.STRING(100),
         allowNull: false,
         validate: {
             notEmpty:{

@@ -12,19 +12,25 @@ block contenido
                 .campo
                     label(for="alumno") Numero de Control:
                     input(type="text", name="alumno" placeholder="Ej: 163107289")
+                .campo
+                    label(for="coordinador") Coordinador:
+                    input(type="text" name="coordinador" placeholder="Coordinador divisional")
+                .campo
+                    label(for="jefe") Jefe de Carrera:
+                    input(type="text" name="jefe" placeholder="Jefe de Division")
                 input.boton(type="submit", value="Generar Carta")
-            if alumno
-                .fila-container
-                    .caja#consulta
-                        h2 No. Control
-                        p= alumno.alumno.id
-                    .caja#consulta.space
-                        h2 Nombre
-                        p= `${alumno.alumno.nombre} ${alumno.alumno.aPaterno} ${alumno.alumno.aMaterno}`
-                    .caja#consulta.space
-                        h2 Carrera
-                        p= alumno.alumno.carrera
-                    .caja#consulta
-                        h2 Creditos
-                        p= alumno.alumno.creditos
-                a(class="boton" href= `${url}` download= `Carta ${alumno.alumno.id}`) Descargar
+        if alumno
+            .fila-container
+                .caja#consulta
+                    h2 No. Control
+                    p= alumno.alumno.id
+                .caja#consulta.space
+                    h2 Nombre
+                    p= `${alumno.alumno.nombre} ${alumno.alumno.aPaterno} ${alumno.alumno.aMaterno}`
+                .caja#consulta.space
+                    h2 Carrera
+                    p= alumno.alumno.carrera
+                .caja#consulta
+                    h2 Creditos
+                    p= alumno.alumno.creditos
+            a(class="boton" href="/descargar-carta" ) Descargar

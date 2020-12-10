@@ -9,7 +9,7 @@ const Docxtemplater = require("docxtemplater");
 const PizZip = require("pizzip");
 const fs = require("fs");
 const path = require("path");
-const {MESES}= require('./../helpers/constants/meses')
+const { MESES } = require("./../helpers/constants/meses");
 
 exports.registrarUsuarioForm = (req, res) => {
   res.render("crearUsuario", {
@@ -46,6 +46,7 @@ exports.registrarUsuario = async (req, res) => {
     req.flash("correcto", "Se ha registrado el usuario");
     res.redirect("/crear-usuario");
   } catch (error) {
+    console.log(error.errors);
     req.flash(
       "error",
       error.errors.map((error) => error.message)
@@ -59,7 +60,7 @@ exports.registrarUsuario = async (req, res) => {
   }
 };
 
-//CARGAR DATOS DE EXCEL
+//------ CARGAR DATOS DE EXCEL -------
 exports.cargarDatosForm = (req, res) => {
   res.render("datosExcel", {
     nombrePagina: "Cargar Datos",
@@ -95,8 +96,8 @@ exports.cargarDatos = async (req, res, next) => {
 
   const data = await excelToJson(archivo.tempFilePath);
 
-  //GUARDAR DATOS EN LA BD
-  data.map(async (usuario) => {
+  //GUARDA ALUMNOS Y ACTIVIDADES EN LA BD
+  data.forEach(async (usuario) => {
     if (!usuario.id) {
       req.flash(
         "error",
@@ -127,33 +128,31 @@ exports.cargarDatos = async (req, res, next) => {
         periodo: usuario.periodo,
       });
     }
-
     const actividadId = await Actividades.findOne({
       where: { actividad: usuario.actividad },
     });
     const alumnoUpdate = await Alumnos.findOne({ where: { id: usuario.id } });
-
     alumnoUpdate.creditos = alumnoUpdate.creditos + actividadId.creditos;
-    if (alumnoUpdate >= 5) {
+    if (alumnoUpdate.creditos >= 5) {
       alumnoUpdate.estado = true;
     }
-    alumnoUpdate.save();
+    await alumnoUpdate.save();
 
     const reg = await AlumnoComplementaria.create({
-      alumnoId: usuario.id,
+      alumnoId: alumnoUpdate.id,
       actividadeId: actividadId.id,
     });
+    if (!reg) {
+      req.flash(
+        "error",
+        "Error al cargar datos, verifique la estructura de su archivo"
+      );
+      res.redirect("/cargar-datos");
+      return;
+    }
   });
-  if (!reg) {
-    req.flash(
-      "error",
-      "Error al cargar datos, verifique la estructura de su archivo"
-    );
-    res.redirect("/cargar-datos");
-    return;
-  }
 
-  req.flash("correcto", "Los Datos han Sido Cargados");
+  req.flash("correcto", "Los datos han sido cargados");
   return res.render("datosExcel", {
     nombrePagina: "Cargar Datos",
     usuario: req.user,
@@ -161,7 +160,7 @@ exports.cargarDatos = async (req, res, next) => {
   });
 };
 
-//ELIMINAR USUARIOS
+//------ ELIMINAR USUARIOS ------
 exports.eliminarUsuarioForm = async (req, res) => {
   const usuariosAll = await Usuarios.findAll();
   const usuarios = usuariosAll.filter(
@@ -186,7 +185,7 @@ exports.eliminarUsuario = async (req, res, next) => {
   }
 };
 
-//CONSULTAR ALUMNOS
+//------ CONSULTAR ALUMNOS ------
 exports.consultarAlumnoForm = (req, res) => {
   res.render("consultarAlumnos", {
     nombrePagina: "Consulta de Alumnos",
@@ -203,13 +202,13 @@ exports.consultarAlumno = async (req, res) => {
     where: { alumnoId: req.query.alumno },
     include: [{ model: Actividades }],
   });
-  
+
   if (!alumno) {
     req.flash("error", "No se encontro ningun alumno con ese No. de Control");
     res.redirect("/consultar-alumno");
     return;
   }
-  
+
   if (!complementarias) {
     req.flash("error", "No se encontraron registros de complementarias");
     res.redirect("/consultar-alumno");
@@ -224,7 +223,7 @@ exports.consultarAlumno = async (req, res) => {
   });
 };
 
-//GENERAR CARTA
+//------ GENERAR CARTA ------
 exports.generarCartaForm = (req, res) => {
   res.render("generarCarta", {
     nombrePagina: "Generar Carta",
@@ -242,14 +241,88 @@ exports.generarCarta = async (req, res) => {
     where: { alumnoId: req.query.alumno },
     include: [{ model: Actividades }],
   });
+  let comPosition, Ac1, Ac2, Ac3, Ac4, Ac5;
+
+  if (!alumno) {
+    req.flash("error", "No se encontro ningún alumno con ese No. de Control");
+    res.redirect("/generar-carta");
+  }
+  if (alumno.alumno.creditos < 5) {
+    req.flash(
+      "error",
+      "El alumno no cumple con los creditos complementarios requeridos"
+    );
+    res.redirect("/generar-carta");
+  }
+  for (let i = 0; i < complementarias.length; i++) {
+    comPosition = i;
+    switch (comPosition) {
+      case 0:
+        Ac1 = [
+          {
+            actividad: complementarias[0].actividade.actividad,
+            periodo: complementarias[0].actividade.periodo,
+            creditos: complementarias[0].actividade.creditos,
+          },
+        ];
+        break;
+      case 1:
+        Ac2 = [
+          {
+            actividad: complementarias[1].actividade.actividad,
+            periodo: complementarias[1].actividade.periodo,
+            creditos: complementarias[1].actividade.creditos,
+          },
+        ];
+        break;
+        case 2:
+        Ac3 = [
+          {
+            actividad: complementarias[2].actividade.actividad,
+            periodo: complementarias[2].actividade.periodo,
+            creditos: complementarias[2].actividade.creditos,
+          },
+        ];
+        break;
+        case 3:
+        Ac4 = [
+          {
+            actividad: complementarias[3].actividade.actividad,
+            periodo: complementarias[3].actividade.periodo,
+            creditos: complementarias[3].actividade.creditos,
+          },
+        ];
+        break;
+      case 4:
+        Ac5 = [
+          {
+            actividad: complementarias[4].actividade.actividad,
+            periodo: complementarias[4].actividade.periodo,
+            creditos: complementarias[4].actividade.creditos,
+          },
+        ];
+        break;
+      default:
+        break;
+    }
+  }
+
   const data = {
+    coordinador: req.query.coordinador.toUpperCase(),
+    jefe: req.query.jefe.toUpperCase(),
     control: alumno.alumno.id.toString(),
     alumno: `${alumno.alumno.nombre.toUpperCase()} ${alumno.alumno.aPaterno.toUpperCase()} ${alumno.alumno.aMaterno.toUpperCase()}`,
     carrera: alumno.alumno.carrera.toUpperCase(),
-    dia: `${date.getDate() < 10 ? '0'+ date.getDate() : date.getDate()}`,
+    dia: `${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`,
     mes: MESES[date.getMonth()],
-    año: date.getFullYear().toString()
-  }
+    año: date.getFullYear().toString(),
+    periodo: complementarias[complementarias.length -1].actividade.periodo,
+    act1: Ac1,
+    act2: Ac2,
+    act3: Ac3,
+    act4: Ac4,
+    act5: Ac5
+  };
 
   //GENERAR LA CARTA
   try {
@@ -264,14 +337,19 @@ exports.generarCarta = async (req, res) => {
     var buf = doc.getZip().generate({ type: "nodebuffer" });
     fs.writeFileSync(path.resolve(__dirname + "/../doc/carta.docx"), buf);
 
-    res.render('generarCarta',{
-      nombrePagina: 'Generar Carta',
+    res.render("generarCarta", {
+      nombrePagina: "Generar Carta",
       usuario: req.user,
       alumno: alumno,
-      url: "doc/carta.docx"
-
-    })
+    });
   } catch (error) {
     console.log(error);
   }
+};
+
+exports.descargarArchivo = (req, res) => {
+  let fd = fs.createReadStream(path.join(__dirname, "../doc", "carta.docx"));
+
+  res.setHeader("Content-Type", "application/msword");
+  fd.pipe(res);
 };

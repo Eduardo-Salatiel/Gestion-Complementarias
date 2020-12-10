@@ -8,12 +8,11 @@ const Actividades = db.define('actividades',{
         autoIncrement: true
     },
     actividad:{
-        type: Sequelize.STRING(120),
+        type: Sequelize.STRING,
         allowNull: false,
     },
     creditos: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: Sequelize.INTEGER
     },
     periodo:{
         type: Sequelize.STRING(7),
