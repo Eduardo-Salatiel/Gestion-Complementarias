@@ -10,24 +10,33 @@ html(lang="en")
             aside.sidebar
                 .usuario-data
                     p Bienvenido: 
-                    span= usuario.nombre
+                    if usuario
+                        span= usuario.nombre 
                 .menu
                     p Menu
                     ul.menu-list
                         li 
-                            a(href="/generar-carta") Emitir Constancia
-                        li 
                             a(href="/consultar-alumno") Consulta de Alumnos
-                if usuario.role === 'admin'
-                    .menu
-                        p Menu Administrador
-                        ul.menu-list
+                        if usuario
                             li 
-                                a(href="/crear-usuario") Registrar Usuario
-                            li 
-                                a(href="/eliminar-usuario") Eliminar Usuario
-                            li 
-                                a(href="/cargar-datos") Cargar Datos            
+                                a(href="/generar-carta") Emitir Constancia
+                if usuario
+                    if usuario.role === 'admin'
+                        .menu
+                            ul.menu-list
+                                
+                                li 
+                                    a(href="/crear-usuario") Registrar Usuario
+                                li 
+                                    a(href="/actualizar-usuario") Actualizar Usuario
+                                li 
+                                    a(href="/eliminar-usuario") Eliminar Usuario
+                                li 
+                                    a(href="/cargar-datos") Cargar Datos  
+                                li 
+                                    a(href="/datos-plantilla") Datos de Carta    
+                                li 
+                                    a(href="/editar-plantilla") Editar Plantilla           
 
             block contenido
         

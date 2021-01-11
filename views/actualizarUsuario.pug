@@ -1,0 +1,46 @@
+extends layout 
+block contenido
+    .container
+        .consultar-container
+            h1 Actualizar Usuario
+            if locals.mensajes
+                    each categoria in Object.keys(locals.mensajes)
+                        .errores
+                            each error in mensajes[categoria]
+                                p(class= categoria)= error
+            form(action="/consultar-usuario", method="POST")
+                .campo
+                    label(for="correo") Correo:
+                    input(type="text", name="correo" placeholder="Ej: sistemacomplementaria@tesci.edu.mx")
+                input.boton(type="submit", value="Buscar")
+        if infoUsuario
+            .actualizar-container
+                form(action="/actualizar-usuario" method="POST")
+                    .campos
+                        .campo
+                            label(for="nombre") Nombre: 
+                            input(type="text" name="nombre" id="nombre" placeholder="Ingresar Nombre" value= infoUsuario.nombre)
+                        .campo
+                            label(for="apellidoP") Apellido Paterno: 
+                            input(type="text" name="aPaterno" id="apellidoP" placeholder="Ingresar Apellido Paterno" value= infoUsuario.aPaterno)
+                        .campo
+                            label(for="apellidoM") Appellido Materno: 
+                            input(type="text" name="aMaterno" id="apellidoM" placeholder="Ingresar Apellido Materno" value= infoUsuario.aMaterno)
+                    .campos
+                        .campo
+                            label(for="correo") Correo: 
+                            input(type="text" name="correo" id="correo" placeholder="Correo Electronico" value= infoUsuario.correo)
+                        .campo
+                            label(for="role") Role: 
+                            select(name="role")
+                                option(value="" disabled selected) Selecciona un role
+                                option(value="admin") Administrador
+                                option(value="user") Usuario
+                        .campo
+                            label(for="jefe") Jefe de Carrera: 
+                            select(name="jefe")
+                                option(value="" disabled selected) En caso de serlo
+                                option(value="Ingenieria en Sistemas Computacionales") Ingenieria en Sistemas Computacionales
+                                option(value="Ingenieria Industrial") Ingenieria Industrial
+                                option(value="Ingenieria Mecatronica") Ingenieria Mecatronica
+                    input.boton(type="submit", value="Actualizar")

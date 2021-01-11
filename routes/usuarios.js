@@ -16,12 +16,17 @@ app.get('/eliminar-usuario',usuarioAutenticado, usuariosController.eliminarUsuar
 app.delete('/eliminar-usuario/:id',usuarioAutenticado, usuariosController.eliminarUsuario)
 
 //CONSULTAR ALUMNOS
-app.get('/consultar-alumno',usuarioAutenticado, usuariosController.consultarAlumnoForm)
-app.get('/consultar-alumno-resultado',usuarioAutenticado, usuariosController.consultarAlumno)
+app.get('/consultar-alumno', usuariosController.consultarAlumnoForm)
+app.get('/consultar-alumno-resultado',usuariosController.consultarAlumno)
 
 //GENERAR CARTA
-app.get('/generar-carta', usuariosController.generarCartaForm)
-app.get('/carta-finalizacion', usuariosController.generarCarta)
-app.get('/descargar-carta', usuariosController.descargarArchivo)
+app.get('/generar-carta', usuarioAutenticado, usuariosController.generarCartaForm)
+app.get('/carta-finalizacion',usuarioAutenticado, usuariosController.generarCarta)
+app.get('/descargar-carta', usuarioAutenticado, usuariosController.descargarArchivo)
+
+//ACTUALIZAR USUARIO
+app.get('/actualizar-usuario', usuarioAutenticado, usuariosController.actualizarUsuarioForm)
+app.post('/consultar-usuario', usuarioAutenticado, usuariosController.consultarUsuario)
+app.post('/actualizar-usuario', usuarioAutenticado, usuariosController.actualizarUsuario)
 
 module.exports = app;

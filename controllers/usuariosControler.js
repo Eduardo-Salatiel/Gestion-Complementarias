@@ -2,6 +2,8 @@ const crypto = require("crypto");
 const Usuarios = require("./../models/Usuarios");
 const Alumnos = require("./../models/Alumnos");
 const AlumnoComplementaria = require("./../models/AlumnoComplementaria");
+const JefeCoordinador = require("./../models/JefeCoordinador");
+const JefeServicios = require("./../models/JefeServicios");
 const Actividades = require("./../models/Actividades");
 const enviarEmail = require("./../helpers/email");
 const { excelToJson } = require("./../helpers/excelData");
@@ -68,7 +70,12 @@ exports.cargarDatosForm = (req, res) => {
   });
 };
 
-exports.cargarDatos = async (req, res, next) => {
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+//------------------------------------------------------------------------
+
+exports.cargarDatos = async (req, res) => {
   //VALIDA SI SI VIENE UN ARCHIVO
   if (!req.files || Object.keys(req.files).length === 0) {
     req.flash("error", "Por favor adjunte un archivo");
@@ -97,7 +104,7 @@ exports.cargarDatos = async (req, res, next) => {
   const data = await excelToJson(archivo.tempFilePath);
 
   //GUARDA ALUMNOS Y ACTIVIDADES EN LA BD
-  data.forEach(async (usuario) => {
+  for (let usuario of data) {
     if (!usuario.id) {
       req.flash(
         "error",
@@ -132,25 +139,37 @@ exports.cargarDatos = async (req, res, next) => {
       where: { actividad: usuario.actividad },
     });
     const alumnoUpdate = await Alumnos.findOne({ where: { id: usuario.id } });
-    alumnoUpdate.creditos = alumnoUpdate.creditos + actividadId.creditos;
-    if (alumnoUpdate.creditos >= 5) {
-      alumnoUpdate.estado = true;
-    }
-    await alumnoUpdate.save();
-
-    const reg = await AlumnoComplementaria.create({
-      alumnoId: alumnoUpdate.id,
-      actividadeId: actividadId.id,
+    const alumnoCom = await AlumnoComplementaria.findOne({
+      where: { alumnoId: alumnoUpdate.id, actividadeId: actividadId.id },
     });
-    if (!reg) {
-      req.flash(
-        "error",
-        "Error al cargar datos, verifique la estructura de su archivo"
-      );
-      res.redirect("/cargar-datos");
-      return;
+
+    if (!alumnoCom) {
+      alumnoUpdate.creditos = alumnoUpdate.creditos + actividadId.creditos;
+      if (alumnoUpdate.creditos >= 5) {
+        alumnoUpdate.estado = true;
+      }
+      await alumnoUpdate.save();
+
+      const reg = await AlumnoComplementaria.create({
+        alumnoId: alumnoUpdate.id,
+        actividadeId: actividadId.id,
+      });
+
+      if (!reg) {
+        req.flash(
+          "error",
+          "Error al cargar datos, verifique la estructura de su archivo"
+        );
+        res.redirect("/cargar-datos");
+        return;
+      }
     }
-  });
+  }
+
+  //------------------------------------------------------------------------
+  //------------------------------------------------------------------------
+  //------------------------------------------------------------------------
+  //------------------------------------------------------------------------
 
   req.flash("correcto", "Los datos han sido cargados");
   return res.render("datosExcel", {
@@ -237,22 +256,29 @@ exports.generarCarta = async (req, res) => {
     where: { alumnoId: req.query.alumno },
     include: { model: Alumnos },
   });
+  if(!alumno){
+    req.flash("error", "No se encontro ningun alumno con ese No. de Control");
+    res.redirect("/generar-carta");
+    return;
+  }
+
   const complementarias = await AlumnoComplementaria.findAll({
     where: { alumnoId: req.query.alumno },
     include: [{ model: Actividades }],
   });
+  const jefes = await JefeCoordinador.findOne({
+    where: { carrera: alumno.alumno.carrera.toUpperCase() },
+  });
+  const jefeServicio = await JefeServicios.findOne({ where: { id: 1 } });
   let comPosition, Ac1, Ac2, Ac3, Ac4, Ac5;
 
-  if (!alumno) {
-    req.flash("error", "No se encontro ningún alumno con ese No. de Control");
-    res.redirect("/generar-carta");
-  }
   if (alumno.alumno.creditos < 5) {
     req.flash(
       "error",
       "El alumno no cumple con los creditos complementarios requeridos"
     );
     res.redirect("/generar-carta");
+    return;
   }
   for (let i = 0; i < complementarias.length; i++) {
     comPosition = i;
@@ -275,7 +301,7 @@ exports.generarCarta = async (req, res) => {
           },
         ];
         break;
-        case 2:
+      case 2:
         Ac3 = [
           {
             actividad: complementarias[2].actividade.actividad,
@@ -284,7 +310,7 @@ exports.generarCarta = async (req, res) => {
           },
         ];
         break;
-        case 3:
+      case 3:
         Ac4 = [
           {
             actividad: complementarias[3].actividade.actividad,
@@ -308,20 +334,21 @@ exports.generarCarta = async (req, res) => {
   }
 
   const data = {
-    coordinador: req.query.coordinador.toUpperCase(),
-    jefe: req.query.jefe.toUpperCase(),
+    jefeServicios: jefeServicio.jefe.trim(),
+    coordinador: jefes.coordinador.trim(),
+    jefe: jefes.jefe.trim(),
     control: alumno.alumno.id.toString(),
     alumno: `${alumno.alumno.nombre.toUpperCase()} ${alumno.alumno.aPaterno.toUpperCase()} ${alumno.alumno.aMaterno.toUpperCase()}`,
     carrera: alumno.alumno.carrera.toUpperCase(),
     dia: `${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`,
     mes: MESES[date.getMonth()],
     año: date.getFullYear().toString(),
-    periodo: complementarias[complementarias.length -1].actividade.periodo,
+    periodo: complementarias[complementarias.length - 1].actividade.periodo,
     act1: Ac1,
     act2: Ac2,
     act3: Ac3,
     act4: Ac4,
-    act5: Ac5
+    act5: Ac5,
   };
 
   //GENERAR LA CARTA
@@ -352,4 +379,44 @@ exports.descargarArchivo = (req, res) => {
 
   res.setHeader("Content-Type", "application/msword");
   fd.pipe(res);
+};
+
+exports.actualizarUsuarioForm = (req, res) => {
+  res.render("actualizarUsuario", {
+    nombrePagina: "Actualizar Usuario",
+    usuario: req.user,
+  });
+};
+
+//---------------------------------------------------------------------
+
+exports.consultarUsuario = async (req, res) => {
+  const correo = await Usuarios.findOne({ where: { correo: req.body.correo } });
+
+  res.render("actualizarUsuario", {
+    nombrePagina: "Actualizar Usuario",
+    usuario: req.user,
+    infoUsuario: correo,
+  });
+};
+
+exports.actualizarUsuario = async (req, res) => {
+  try {
+    let { nombre, aPaterno, aMaterno, correo, role, jefe } = req.body;
+    const usuario = await Usuarios.findOne({ where: { correo } });
+
+    usuario.nombre = nombre;
+    usuario.aPaterno = aPaterno;
+    usuario.aMaterno = aMaterno;
+    usuario.correo = correo;
+    usuario.role = role;
+    if (jefe) usuario.jefe = jefe;
+    await usuario.save();
+    req.flash("correcto", "Usuario Actualizado");
+    res.redirect("/actualizar-usuario");
+  } catch (error) {
+    console.log(error);
+    req.flash("error", "Error al actualizar usuario");
+    res.redirect("/actualizar-usuario");
+  }
 };

@@ -1,0 +1,24 @@
+extends layout 
+block contenido
+    .container
+        .plantilla-container.registrar-container
+            h1 Datos de Carta
+            if locals.mensajes
+                
+                each categoria in Object.keys(locals.mensajes)
+                    .errores
+                        each error in mensajes[categoria]
+                            p(class= categoria)= error
+            form( action="jefe-coordinador" method="post")
+                .campo-select
+                    label(for="opcion") Asignar datos:
+                    select(name="opcion" id="dato")
+                        option(value="" disabled selected) --Seleccione una opcion--
+                        option(value="Jefe servicios") Jefe del Departamento de Servicios Escolares
+                        option(value="Ingenieria en Sistemas Computacionales") Ingenieria en Sistemas Computacionales
+                        option(value="Ingenieria en Mecatronica") Ingenieria en Mecatronica
+                        option(value="Ingenieria en Logistica") Ingenieria en Logistica
+                        option(value="Ingenieria en Gestión Empresarial") Ingenieria en Gestión Empresarial
+                .campos
+    script(src="/dist/bundle.js")                   
+

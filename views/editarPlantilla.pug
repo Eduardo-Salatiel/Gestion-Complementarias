@@ -1,0 +1,20 @@
+extends layout
+block contenido
+    .container.editar-plantilla
+        h1 Editar Plantilla
+        if locals.mensajes
+                each categoria in Object.keys(locals.mensajes)
+                    .errores
+                        each error in mensajes[categoria]
+                            p(class= categoria)= error
+
+        form(action="/cargar-plantilla" method='POST' enctype="multipart/form-data")
+            .botonera
+                a(href="/descargar-plantilla" class="boton") Descargar Plantilla
+                .campo
+                    label(for="archivo" class="boton") Subir Archivo
+                    input(type="file", name="plantilla" id="archivo")
+                a(href="/descargar-respaldo" class="boton") Descargar Respaldo
+
+            input(type="submit" value="Guardar Cambios" class="boton enviar")
+
