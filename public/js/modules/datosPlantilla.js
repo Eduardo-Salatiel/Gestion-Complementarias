@@ -20,10 +20,16 @@ const handleChange = async (e) => {
   submit.setAttribute("class", "boton");
 
   if (
-    data === "Ingenieria en Sistemas Computacionales" ||
-    data === "Ingenieria en Logistica" ||
-    data === "Ingenieria en Mecatronica" ||
-    data === "Ingenieria en Gestión Empresarial"
+    data === "Ingeniería en Sistemas Computacionales" ||
+    data === "Ingeniería en Gestión Empresarial" ||
+    data === "Ingeniería Industrial" ||
+    data === "Ingeniería en Tecnologías de la Información y Comunicaciones" ||
+    data === "Ingeniería Mecatronica" ||
+    data === "Ingeniería en Logística" ||
+    data === "Contador Público" ||
+    data === "Ingeniería en Administración" ||
+    data === "Ingeniería Quimica"
+
   ) {
     //LLAMADA A LA API
     let url = `${location.origin}/jefe-coordinador`;

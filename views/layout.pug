@@ -4,8 +4,7 @@ html(lang="en")
         include partials/head
     body
         header.main-header
-            h1 Actividades Complementarias
-            a(href="/cerrar-sesion") Cerrar Sesión
+            img(src="/img/header.png", alt="")
         main
             aside.sidebar
                 .usuario-data
@@ -36,7 +35,9 @@ html(lang="en")
                                 li 
                                     a(href="/datos-plantilla") Datos de Carta    
                                 li 
-                                    a(href="/editar-plantilla") Editar Plantilla           
+                                    a(href="/editar-plantilla") Editar Plantilla
+                .cerrar-sesion
+                    a(href="/cerrar-sesion") Cerrar Sesión           
 
             block contenido
         
