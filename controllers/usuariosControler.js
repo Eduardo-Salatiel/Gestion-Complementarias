@@ -166,11 +166,6 @@ exports.cargarDatos = async (req, res) => {
     }
   }
 
-  //------------------------------------------------------------------------
-  //------------------------------------------------------------------------
-  //------------------------------------------------------------------------
-  //------------------------------------------------------------------------
-
   req.flash("correcto", "Los datos han sido cargados");
   return res.render("datosExcel", {
     nombrePagina: "Cargar Datos",
@@ -272,14 +267,6 @@ exports.generarCarta = async (req, res) => {
   const jefeServicio = await JefeServicios.findOne({ where: { id: 1 } });
   let comPosition, Ac1, Ac2, Ac3, Ac4, Ac5;
 
-  if (alumno.alumno.creditos < 5) {
-    req.flash(
-      "error",
-      "El alumno no cumple con los creditos complementarios requeridos"
-    );
-    res.redirect("/generar-carta");
-    return;
-  }
   for (let i = 0; i < complementarias.length; i++) {
     comPosition = i;
     switch (comPosition) {
@@ -340,6 +327,7 @@ exports.generarCarta = async (req, res) => {
     control: alumno.alumno.id.toString(),
     alumno: `${alumno.alumno.nombre.toUpperCase()} ${alumno.alumno.aPaterno.toUpperCase()} ${alumno.alumno.aMaterno.toUpperCase()}`,
     carrera: alumno.alumno.carrera.toUpperCase(),
+    creditos: alumno.alumno.creditos,
     dia: `${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`,
     mes: MESES[date.getMonth()],
     año: date.getFullYear().toString(),
@@ -403,6 +391,7 @@ exports.consultarUsuario = async (req, res) => {
 exports.actualizarUsuario = async (req, res) => {
   try {
     let { nombre, aPaterno, aMaterno, correo, role, jefe } = req.body;
+    const token = crypto.randomBytes(20).toString('hex');
     const usuario = await Usuarios.findOne({ where: { correo } });
 
     usuario.nombre = nombre;
@@ -410,12 +399,23 @@ exports.actualizarUsuario = async (req, res) => {
     usuario.aMaterno = aMaterno;
     usuario.correo = correo;
     usuario.role = role;
+    usuario.password = '';
+    usuario.token = token;
+
     if (jefe) usuario.jefe = jefe;
+    //ENVIAR CORREO DE ACTUALIZACION
+    const resetURL = `http://${req.headers.host}/configurar-password/${token}`;
+    enviarEmail.enviar({
+      subject: "Actualizar contraseña",
+      usuario,
+      resetURL,
+      archivo: "actualizar",
+      correo,
+    });
     await usuario.save();
     req.flash("correcto", "Usuario Actualizado");
     res.redirect("/actualizar-usuario");
   } catch (error) {
-    console.log(error);
     req.flash("error", "Error al actualizar usuario");
     res.redirect("/actualizar-usuario");
   }

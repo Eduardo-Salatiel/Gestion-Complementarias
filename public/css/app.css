@@ -277,6 +277,7 @@ a {
 }
 
 .sidebar .cerrar-sesion {
+  height: 55% !important;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -594,6 +595,10 @@ a {
   background-color: darkred;
   color: #fff;
   text-decoration: none;
+}
+
+.container.consulta .fila-container-message h3 {
+  text-align: center;
 }
 
 .container.consulta .fila-container {

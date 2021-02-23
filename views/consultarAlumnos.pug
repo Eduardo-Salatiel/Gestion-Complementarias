@@ -12,7 +12,7 @@ block contenido
             form(action="/consultar-alumno-resultado", method="get")
                 .campo
                     label(for="alumno") Numero de Control:
-                    input(type="text", name="alumno" placeholder="Ej: 163107289")
+                    input(type="text", name="alumno" placeholder="Ej: 163107289" autocomplete="off")
                 input.boton(type="submit", value="Consultar")
         if alumno
             .fila-container

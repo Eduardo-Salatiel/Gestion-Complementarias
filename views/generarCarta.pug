@@ -11,9 +11,27 @@ block contenido
             form(action="/carta-finalizacion", method="get")
                 .campo
                     label(for="alumno") Numero de Control:
-                    input(type="text", name="alumno" placeholder="Ej: 163107289")
+                    input(type="text", name="alumno" placeholder="Ej: 163107289" autocomplete="off")
                 input.boton(type="submit", value="Generar Carta")
-        if alumno
+        if alumno && alumno.alumno.creditos >= 5
+            .fila-container
+                .caja#consulta
+                    h2 No. Control
+                    p= alumno.alumno.id
+                .caja#consulta.space
+                    h2 Nombre
+                    p= `${alumno.alumno.nombre} ${alumno.alumno.aPaterno} ${alumno.alumno.aMaterno}`
+                .caja#consulta.space
+                    h2 Carrera
+                    p= alumno.alumno.carrera
+                .caja#consulta
+                    h2 Creditos
+                    p= alumno.alumno.creditos
+            a(class="boton" href="/descargar-carta" ) Descargar
+
+        if alumno && alumno.alumno.creditos < 5
+            .fila-container-message
+                h3 El alumno no cuenta con 5 creditos, pero se puede emitir una constancia parcial
             .fila-container
                 .caja#consulta
                     h2 No. Control
