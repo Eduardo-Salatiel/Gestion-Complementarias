@@ -144,24 +144,28 @@ exports.cargarDatos = async (req, res) => {
     });
 
     if (!alumnoCom) {
-      alumnoUpdate.creditos = alumnoUpdate.creditos + actividadId.creditos;
-      if (alumnoUpdate.creditos >= 5) {
-        alumnoUpdate.estado = true;
-      }
-      await alumnoUpdate.save();
-
-      const reg = await AlumnoComplementaria.create({
-        alumnoId: alumnoUpdate.id,
-        actividadeId: actividadId.id,
-      });
-
-      if (!reg) {
-        req.flash(
-          "error",
-          "Error al cargar datos, verifique la estructura de su archivo"
-        );
-        res.redirect("/cargar-datos");
-        return;
+      if (alumnoUpdate.creditos < 5) {
+        alumnoUpdate.creditos = alumnoUpdate.creditos + actividadId.creditos;
+        if(alumnoUpdate.creditos >= 5){ 
+          alumnoUpdate.estado = true
+          alumnoUpdate.creditos = 5;
+        };
+     
+        await alumnoUpdate.save();
+  
+        const reg = await AlumnoComplementaria.create({
+          alumnoId: alumnoUpdate.id,
+          actividadeId: actividadId.id,
+        });
+  
+        if (!reg) {
+          req.flash(
+            "error",
+            "Error al cargar datos, verifique la estructura de su archivo"
+          );
+          res.redirect("/cargar-datos");
+          return;
+        }
       }
     }
   }

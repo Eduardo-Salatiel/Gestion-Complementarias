@@ -3,7 +3,7 @@ extends layout
 block contenido
     .container.consulta
         .consultar-container
-            h1 Consultar Alumno
+            h1 Consultar alumno
             if locals.mensajes
                 each categoria in Object.keys(locals.mensajes)
                     .errores
@@ -11,13 +11,13 @@ block contenido
                             p(class= categoria)= error
             form(action="/consultar-alumno-resultado", method="get")
                 .campo
-                    label(for="alumno") Numero de Control:
+                    label(for="alumno") Número de control:
                     input(type="text", name="alumno" placeholder="Ej: 163107289" autocomplete="off")
                 input.boton(type="submit", value="Consultar")
         if alumno
             .fila-container
                 .caja#consulta
-                    h2 No. Control
+                    h2 No. control
                     p= alumno.alumno.id
                 .caja#consulta.space
                     h2 Nombre
@@ -26,7 +26,7 @@ block contenido
                     h2 Carrera
                     p= alumno.alumno.carrera
                 .caja#consulta
-                    h2 Creditos
+                    h2 Créditos
                     p= alumno.alumno.creditos
         if(complementarias)
             table
@@ -36,7 +36,7 @@ block contenido
                         th PERIODO 
                         th ACTIVIDAD
                         th CLAVE
-                        th CREDITOS
+                        th CRÉDITOS
                 tbody
                     each complementaria in complementarias
                         tr

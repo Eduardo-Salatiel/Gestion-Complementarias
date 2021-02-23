@@ -2,7 +2,7 @@ extends layout
 block contenido
      .container.consulta
         .consultar-container
-            h1 Emitir Constancia de Creditos Complementarios
+            h1 Emitir constancia de créditos complementarios
             if locals.mensajes
                 each categoria in Object.keys(locals.mensajes)
                     .errores
@@ -10,13 +10,13 @@ block contenido
                             p(class= categoria)= error
             form(action="/carta-finalizacion", method="get")
                 .campo
-                    label(for="alumno") Numero de Control:
+                    label(for="alumno") Número de control:
                     input(type="text", name="alumno" placeholder="Ej: 163107289" autocomplete="off")
                 input.boton(type="submit", value="Generar Carta")
         if alumno && alumno.alumno.creditos >= 5
             .fila-container
                 .caja#consulta
-                    h2 No. Control
+                    h2 No. control
                     p= alumno.alumno.id
                 .caja#consulta.space
                     h2 Nombre
@@ -25,7 +25,7 @@ block contenido
                     h2 Carrera
                     p= alumno.alumno.carrera
                 .caja#consulta
-                    h2 Creditos
+                    h2 Créditos
                     p= alumno.alumno.creditos
             a(class="boton" href="/descargar-carta" ) Descargar
 
@@ -43,6 +43,6 @@ block contenido
                     h2 Carrera
                     p= alumno.alumno.carrera
                 .caja#consulta
-                    h2 Creditos
+                    h2 Créditos
                     p= alumno.alumno.creditos
             a(class="boton" href="/descargar-carta" ) Descargar

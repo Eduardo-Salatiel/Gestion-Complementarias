@@ -1,7 +1,7 @@
 extends layout
 block contenido
     .container.editar-plantilla
-        h1 Editar Plantilla
+        h1 Editar plantilla
         if locals.mensajes
                 each categoria in Object.keys(locals.mensajes)
                     .errores
@@ -10,11 +10,11 @@ block contenido
 
         form(action="/cargar-plantilla" method='POST' enctype="multipart/form-data")
             .botonera
-                a(href="/descargar-plantilla" class="boton") Descargar Plantilla
+                a(href="/descargar-plantilla" class="boton") Descargar plantilla
                 .campo
-                    label(for="archivo" class="boton") Subir Archivo
+                    label(for="archivo" class="boton") Subir archivo
                     input(type="file", name="plantilla" id="archivo")
-                a(href="/descargar-respaldo" class="boton") Descargar Respaldo
+                a(href="/descargar-respaldo" class="boton") Descargar respaldo
 
-            input(type="submit" value="Guardar Cambios" class="boton enviar")
+            input(type="submit" value="Guardar cambios" class="boton enviar")
 

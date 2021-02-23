@@ -2,7 +2,7 @@ extends layout
 block contenido
     .container
         .consultar-container
-            h1 Actualizar Usuario
+            h1 Actualizar usuario
             if locals.mensajes
                     each categoria in Object.keys(locals.mensajes)
                         .errores
@@ -21,10 +21,10 @@ block contenido
                             label(for="nombre") Nombre: 
                             input(type="text" name="nombre" id="nombre" placeholder="Ingresar Nombre" value= infoUsuario.nombre)
                         .campo
-                            label(for="apellidoP") Apellido Paterno: 
+                            label(for="apellidoP") Apellido paterno: 
                             input(type="text" name="aPaterno" id="apellidoP" placeholder="Ingresar Apellido Paterno" value= infoUsuario.aPaterno)
                         .campo
-                            label(for="apellidoM") Appellido Materno: 
+                            label(for="apellidoM") Apellido materno: 
                             input(type="text" name="aMaterno" id="apellidoM" placeholder="Ingresar Apellido Materno" value= infoUsuario.aMaterno)
                     .campos
                         .campo
@@ -37,7 +37,7 @@ block contenido
                                 option(value="admin") Administrador
                                 option(value="user") Usuario
                         .campo
-                            label(for="jefe") Jefe de Carrera: 
+                            label(for="jefe") Jefe de carrera: 
                             select(name="jefe")
                                 option(value="" disabled selected) En caso de serlo
                                 option(value="Ingeniería en Sistemas Computacionales") Ingeniería en Sistemas Computacionales

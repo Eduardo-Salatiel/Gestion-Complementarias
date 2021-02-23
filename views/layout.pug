@@ -12,32 +12,32 @@ html(lang="en")
                     if usuario
                         span= usuario.nombre 
                 .menu
-                    p Menu
+                    p Menú
                     ul.menu-list
                         li 
-                            a(href="/consultar-alumno") Consulta de Alumnos
+                            a(href="/consultar-alumno") Consulta de alumnos
                         if usuario
                             li 
-                                a(href="/generar-carta") Emitir Constancia
+                                a(href="/generar-carta") Emitir constancia
                 if usuario
                     if usuario.role === 'admin'
                         .menu
                             ul.menu-list
                                 
                                 li 
-                                    a(href="/crear-usuario") Registrar Usuario
+                                    a(href="/crear-usuario") Registrar usuario
                                 li 
-                                    a(href="/actualizar-usuario") Actualizar Usuario
+                                    a(href="/actualizar-usuario") Actualizar usuario
                                 li 
-                                    a(href="/eliminar-usuario") Eliminar Usuario
+                                    a(href="/eliminar-usuario") Eliminar usuario
                                 li 
-                                    a(href="/cargar-datos") Cargar Datos  
+                                    a(href="/cargar-datos") Cargar datos  
                                 li 
-                                    a(href="/datos-plantilla") Datos de Carta    
+                                    a(href="/datos-plantilla") Datos de carta    
                                 li 
-                                    a(href="/editar-plantilla") Editar Plantilla
+                                    a(href="/editar-plantilla") Editar plantilla
                     .cerrar-sesion
-                        a(href="/cerrar-sesion") Cerrar Sesión           
+                        a(href="/cerrar-sesion") Cerrar sesión           
 
             block contenido
         

@@ -2,7 +2,7 @@ extends layout
 block contenido
     .container
         .cargar-container 
-            h1 Cargar Datos de Excel
+            h1 Cargar datos de excel
             if locals.mensajes
                 each categoria in Object.keys(locals.mensajes)
                     .errores
@@ -12,8 +12,8 @@ block contenido
             form(action="/cargar-datos" method='POST' enctype="multipart/form-data")
 
                 .campo
-                    p Subir Archivo:
-                    label(for="archivo") Seleccione un Archivo 
+                    p Subir archivo:
+                    label(for="archivo") Seleccione un archivo 
                     input(type="file", name="ex" id="archivo")
                 input.boton(type="submit", value="Cargar Datos")
                 
