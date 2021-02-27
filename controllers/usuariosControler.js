@@ -115,7 +115,9 @@ exports.cargarDatos = async (req, res) => {
     }
     const alumno = await Alumnos.findOne({ where: { id: usuario.id } });
     const actividad = await Actividades.findOne({
-      where: { actividad: usuario.actividad },
+      where: { 
+        actividad: usuario.actividad
+      },
     });
 
     if (!alumno) {
@@ -132,7 +134,6 @@ exports.cargarDatos = async (req, res) => {
       await Actividades.create({
         actividad: usuario.actividad,
         creditos: usuario.creditos,
-        periodo: usuario.periodo,
       });
     }
     const actividadId = await Actividades.findOne({
@@ -146,18 +147,18 @@ exports.cargarDatos = async (req, res) => {
     if (!alumnoCom) {
       if (alumnoUpdate.creditos < 5) {
         alumnoUpdate.creditos = alumnoUpdate.creditos + actividadId.creditos;
-        if(alumnoUpdate.creditos >= 5){ 
-          alumnoUpdate.estado = true
-          alumnoUpdate.creditos = 5;
-        };
-     
+        if (alumnoUpdate.creditos >= 5) {
+          alumnoUpdate.estado = true;
+        }
+
         await alumnoUpdate.save();
-  
+
         const reg = await AlumnoComplementaria.create({
+          periodo: usuario.periodo,
           alumnoId: alumnoUpdate.id,
           actividadeId: actividadId.id,
         });
-  
+
         if (!reg) {
           req.flash(
             "error",
@@ -255,7 +256,7 @@ exports.generarCarta = async (req, res) => {
     where: { alumnoId: req.query.alumno },
     include: { model: Alumnos },
   });
-  if(!alumno){
+  if (!alumno) {
     req.flash("error", "No se encontro ningun alumno con ese No. de Control");
     res.redirect("/generar-carta");
     return;
@@ -270,6 +271,8 @@ exports.generarCarta = async (req, res) => {
   });
   const jefeServicio = await JefeServicios.findOne({ where: { id: 1 } });
   let comPosition, Ac1, Ac2, Ac3, Ac4, Ac5;
+  //VALIDA MAS DE 6 CREDITOS
+  let validarCreditos = alumno.alumno.creditos;
 
   for (let i = 0; i < complementarias.length; i++) {
     comPosition = i;
@@ -278,46 +281,81 @@ exports.generarCarta = async (req, res) => {
         Ac1 = [
           {
             actividad: complementarias[0].actividade.actividad,
-            periodo: complementarias[0].actividade.periodo,
+            periodo: complementarias[0].periodo,
             creditos: complementarias[0].actividade.creditos,
           },
         ];
+        if (
+          validarCreditos > 5 &&
+          complementarias[0].actividade.creditos === 2
+        ) {
+          Ac1[0].creditos = 1;
+          validarCreditos = validarCreditos - 1;
+        }
         break;
       case 1:
         Ac2 = [
           {
             actividad: complementarias[1].actividade.actividad,
-            periodo: complementarias[1].actividade.periodo,
+            periodo: complementarias[1].periodo,
             creditos: complementarias[1].actividade.creditos,
           },
         ];
+        if (
+          validarCreditos > 5 &&
+          complementarias[1].actividade.creditos === 2
+        ) {
+          Ac2[0].creditos = 1;
+          validarCreditos -= 1;
+        }
         break;
       case 2:
         Ac3 = [
           {
             actividad: complementarias[2].actividade.actividad,
-            periodo: complementarias[2].actividade.periodo,
+            periodo: complementarias[2].periodo,
             creditos: complementarias[2].actividade.creditos,
           },
         ];
+        if (
+          validarCreditos > 5 &&
+          complementarias[2].actividade.creditos === 2
+        ) {
+          Ac3[0].creditos = 1;
+          validarCreditos -= 1;
+        }
         break;
       case 3:
         Ac4 = [
           {
             actividad: complementarias[3].actividade.actividad,
-            periodo: complementarias[3].actividade.periodo,
+            periodo: complementarias[3].periodo,
             creditos: complementarias[3].actividade.creditos,
           },
         ];
+        if (
+          validarCreditos > 5 &&
+          complementarias[3].actividade.creditos === 2
+        ) {
+          Ac4[0].creditos = 1;
+          validarCreditos -= 1;
+        }
         break;
       case 4:
         Ac5 = [
           {
             actividad: complementarias[4].actividade.actividad,
-            periodo: complementarias[4].actividade.periodo,
+            periodo: complementarias[4].periodo,
             creditos: complementarias[4].actividade.creditos,
           },
         ];
+        if (
+          validarCreditos > 5 &&
+          complementarias[4].actividade.creditos === 2
+        ) {
+          Ac5[0].creditos = 1;
+          validarCreditos -= 1;
+        }
         break;
       default:
         break;
@@ -331,7 +369,7 @@ exports.generarCarta = async (req, res) => {
     control: alumno.alumno.id.toString(),
     alumno: `${alumno.alumno.nombre.toUpperCase()} ${alumno.alumno.aPaterno.toUpperCase()} ${alumno.alumno.aMaterno.toUpperCase()}`,
     carrera: alumno.alumno.carrera.toUpperCase(),
-    creditos: alumno.alumno.creditos,
+    creditos: alumno.alumno.creditos > 5 ? 5 : alumno.alumno.creditos,
     dia: `${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`,
     mes: MESES[date.getMonth()],
     año: date.getFullYear().toString(),
@@ -395,7 +433,7 @@ exports.consultarUsuario = async (req, res) => {
 exports.actualizarUsuario = async (req, res) => {
   try {
     let { nombre, aPaterno, aMaterno, correo, role, jefe } = req.body;
-    const token = crypto.randomBytes(20).toString('hex');
+    const token = crypto.randomBytes(20).toString("hex");
     const usuario = await Usuarios.findOne({ where: { correo } });
 
     usuario.nombre = nombre;
@@ -403,7 +441,7 @@ exports.actualizarUsuario = async (req, res) => {
     usuario.aMaterno = aMaterno;
     usuario.correo = correo;
     usuario.role = role;
-    usuario.password = '';
+    usuario.password = "";
     usuario.token = token;
 
     if (jefe) usuario.jefe = jefe;

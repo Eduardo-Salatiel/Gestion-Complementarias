@@ -14,10 +14,6 @@ const Actividades = db.define('actividades',{
     creditos: {
         type: Sequelize.INTEGER
     },
-    periodo:{
-        type: Sequelize.STRING(7),
-        allowNull: false
-    }
 })
 
 

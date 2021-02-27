@@ -8,6 +8,10 @@ const AlumnoComplementaria = db.define('alumnoComplementaria',{
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
+    },
+    periodo:{
+        type: Sequelize.STRING(7),
+        allowNull: false
     }
 })
 

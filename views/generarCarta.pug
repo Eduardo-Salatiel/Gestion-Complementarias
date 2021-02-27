@@ -26,7 +26,10 @@ block contenido
                     p= alumno.alumno.carrera
                 .caja#consulta
                     h2 Créditos
-                    p= alumno.alumno.creditos
+                    if alumno.alumno.creditos > 5
+                        p= 5
+                    else 
+                        p= alumno.alumno.creditos
             a(class="boton" href="/descargar-carta" ) Descargar
 
         if alumno && alumno.alumno.creditos < 5

@@ -27,7 +27,10 @@ block contenido
                     p= alumno.alumno.carrera
                 .caja#consulta
                     h2 Créditos
-                    p= alumno.alumno.creditos
+                    if alumno.alumno.creditos > 5
+                        p= 5
+                    else 
+                        p= alumno.alumno.creditos
         if(complementarias)
             table
                 caption ACTIVIDADES COMPLEMENTARIAS REGISTRADAS
@@ -40,12 +43,15 @@ block contenido
                 tbody
                     each complementaria in complementarias
                         tr
-                            td= complementaria.actividade.periodo
+                            td= complementaria.periodo
                             td= complementaria.actividade.actividad
                             td *****
                             td= complementaria.actividade.creditos
                     tr
                         td.total-creditos(colspan="3") TOTAL DE CREDITOS CUBIERTOS
-                        td= alumno.alumno.creditos
+                        if alumno.alumno.creditos > 5
+                            td= 5
+                        else 
+                            td= alumno.alumno.creditos
 
     
