@@ -5,7 +5,7 @@ const {usuarioAutenticado} = require('./../controllers/loginController');
 
 //REGISTRAR USUARIOS
 app.get('/crear-usuario', usuariosController.registrarUsuarioForm)
-app.post('/crear-usuario',usuarioAutenticado, usuariosController.registrarUsuario)
+app.post('/crear-usuario', usuariosController.registrarUsuario)
 
 //CARGAR DATOS DE EXCEL
 app.get('/cargar-datos',usuarioAutenticado, usuariosController.cargarDatosForm)
