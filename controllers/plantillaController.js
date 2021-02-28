@@ -85,6 +85,7 @@ exports.jefeServiciosSave = async (req, res) => {
       res.status(400).json({
         ok: false,
         err: "Hubo un error",
+        msg: error.message
       });
     }
   } else {
