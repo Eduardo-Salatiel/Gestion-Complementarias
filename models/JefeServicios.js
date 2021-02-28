@@ -5,7 +5,6 @@ const JefeServicios = db.define('jefeServicios',{
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
     },
     jefe: {
         type: Sequelize.STRING,
