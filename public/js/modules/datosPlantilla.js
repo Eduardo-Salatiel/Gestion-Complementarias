@@ -86,7 +86,6 @@ const handleChange = async (e) => {
     if (response.status === 200) {
       jefeServicio = response.data.jefe.jefe;
     }
-    console.log(response);
 
     const labelJefe = document.createElement("label");
     labelJefe.textContent = "Jefe de Servicios Escolares:";
@@ -117,7 +116,6 @@ if (select) {
 
       const url = `${location.origin}/jefe-servicios`;
       axios.post(url, body).then(function (res) {
-        console.log(res);
         Swal.fire(
           "Datos Guardados",
           "Los datos se guardaron correctamente",
