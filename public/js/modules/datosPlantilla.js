@@ -86,10 +86,7 @@ const handleChange = async (e) => {
     if (response.status === 200) {
       jefeServicio = response.data.jefe.jefe;
     }
-
-    if (response.status === 200) {
-      jefeServicio = response.data.jefe.jefe;
-    }
+    console.log(response);
 
     const labelJefe = document.createElement("label");
     labelJefe.textContent = "Jefe de Servicios Escolares:";
@@ -111,6 +108,7 @@ if (select) {
 if (select) {
   select.parentElement.parentElement.addEventListener("submit", (e) => {
     e.preventDefault();
+    console.log(select.value);
 
     if (select.value === "Jefe servicios") {
       const body = {

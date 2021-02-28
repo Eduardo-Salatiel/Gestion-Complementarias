@@ -257,7 +257,7 @@ exports.generarCarta = async (req, res) => {
     include: { model: Alumnos },
   });
   if (!alumno) {
-    req.flash("error", "No se encontro ningun alumno con ese No. de Control");
+    req.flash("error", "No se encontro ningún alumno con ese No. de Control");
     res.redirect("/generar-carta");
     return;
   }
@@ -270,6 +270,13 @@ exports.generarCarta = async (req, res) => {
     where: { carrera: alumno.alumno.carrera.toUpperCase() },
   });
   const jefeServicio = await JefeServicios.findOne({ where: { id: 1 } });
+
+  if (!jefes || !jefeServicio) {
+    req.flash("error", "Por favor registra los datos del personal administrativo");
+    res.redirect("/generar-carta");
+    return;
+  }
+
   let comPosition, Ac1, Ac2, Ac3, Ac4, Ac5;
   //VALIDA MAS DE 6 CREDITOS
   let validarCreditos = alumno.alumno.creditos;

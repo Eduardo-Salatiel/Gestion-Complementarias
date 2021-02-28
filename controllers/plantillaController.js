@@ -78,7 +78,8 @@ exports.jefeServiciosSave = async (req, res) => {
   const data = await JefeServicios.findOne({ where: { id: 1 } });
   if (!data) {
     try {
-      await JefeServicios.create({ jefe });
+      const res = await JefeServicios.create({ jefe });
+      console.log(res);
       res.send("ok");
     } catch (error) {
       res.status(400).json({
@@ -87,6 +88,7 @@ exports.jefeServiciosSave = async (req, res) => {
       });
     }
   } else {
+    console.log(data);
     data.jefe = jefe;
     await data.save();
     res.send("ok");
