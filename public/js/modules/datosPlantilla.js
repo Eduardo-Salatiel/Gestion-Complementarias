@@ -114,9 +114,11 @@ if (select) {
       const body = {
         jefe: select.parentElement.nextElementSibling.firstChild.lastChild.value.toUpperCase(),
       };
+      console.log(body.jefe);
 
       const url = `${location.origin}/jefe-servicios`;
       axios.post(url, body).then(function (res) {
+        console.log(res);
         Swal.fire(
           "Datos Guardados",
           "Los datos se guardaron correctamente",
